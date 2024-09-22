@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Лента продаж{% endblock %}
+
+{% block content %}
+<h2>Лента продаж</h2>
+<button onclick="window.location.href='{{ url_for('profile') }}'">Профиль</button>
+
+<div class="sales-feed-container">
+    {% for post in sales_feed %}
+        <div class="sale-post">
+            <h3>{{ post.painting.title }}</h3>
+            <p>Владелец: {{ post.user.username }}</p>
+            <img src="{{ post.painting.image_url }}" alt="{{ post.painting.title }}" width="200">
+            <p>Цена: {{ post.painting.price }} руб.</p>
+            <p>Лайков: {{ post.likes_count }}</p>
+            <p>Репостов: {{ post.repost_count }}</p>
+        </div>
+    {% else %}
+        <p>Пока нет постов для отображения.</p>
+    {% endfor %}
+</div>
+{% endblock %}

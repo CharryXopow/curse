@@ -1,18 +1,11 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <title>Профиль</title>
-</head>
-<body>
-    <h1>Профиль</h1>
-    <p>Имя пользователя: {{ name }}</p>
-    <img src="data:image/png;base64,{{ image_data }}" alt="Аватар">
-    <form action="/profile" method="POST" enctype="multipart/form-data">
-        <label for="image">Выберите новое изображение:</label>
-        <input type="file" id="image" name="image" accept="image/*" required><br>
-        <button type="submit">Изменить изображение</button>
-    </form>
-    <a href="/logout">Выйти</a>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block title %}Профиль пользователя{% endblock %}
+
+{% block content %}
+<h2>Профиль {{ current_user.username }}</h2>
+<img src="{{ current_user.avatar_url }}" alt="Аватар" width="150" height="150">
+<p>Никнейм: {{ current_user.username }}</p>
+<p>Email: {{ current_user.email }}</p>
+<button onclick="window.location.href='{{ url_for('logout') }}'">Выйти из аккаунта</button>
+{% endblock %}
