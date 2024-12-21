@@ -2,11 +2,22 @@ from flask import Flask, render_template, redirect, url_for, request, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager, UserMixin, login_user, login_required,logout_user, current_user
 from models import db,SalesFeed,User,Painting,Comment
+from sqlalchemy import text
+from sqlalchemy.orm import joinedload
 
 app = Flask(__name__)
 app.config.from_object('config.Config')
 app.secret_key = 'your_secret_key'
 
+@app.route('/test_db')
+def test_db():
+    try:
+        with db.engine.connect() as connection:
+            result = connection.execute(text("SELECT 1")).fetchone()
+            return f"Database connection successful: {result[0]}"
+    except Exception as e:
+        return f"Database connection failed: {str(e)}"
+    
 db.init_app(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
@@ -44,7 +55,15 @@ def login():
 @app.route('/')
 def index():
     with app.app_context():
-        sales_feed = SalesFeed.query.all()
+        sales_feed = db.session.query(SalesFeed).options(
+            joinedload(SalesFeed.user),
+            joinedload(SalesFeed.painting)
+        ).all()
+
+        # Вывод для отладки
+        for post in sales_feed:
+            print(f"Post ID: {post.post_id}, User: {post.user.username}, Painting: {post.painting.title}")
+
     return render_template('sales_feed.html', sales_feed=sales_feed)
 
 @app.route('/register', methods=['POST'])

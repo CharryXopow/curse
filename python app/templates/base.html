@@ -4,28 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %}</title>
+    <!-- <link rel="stylesheet" href='styles.css'> -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <nav>
         <div class="header-main__wrapper">
             <div clas="header-main__container">
-                <ul class="header-main__list">
-                    <li class="header-main__list-item">
-                        <a href="{{ url_for('index') }}">Главная</a>
+                <div class="header-main__list">
+                    <div class="header-main__list-item">
+                        <a href="{{ url_for('index') }}">
+                            <span class="header-main__text-color">Главная</span>
+                        </a>
+                    </div>
                     {% if current_user.is_authenticated %}
-                    <li class="header-main__list-item">
-                        <a href="{{ url_for('profile') }}">Профиль</a>
-                    </li>
-                    <li class="header-main__list-item">
-                        <a href="{{ url_for('logout') }}">Выйти</a>
-                    </li>
+                    <div class="header-main__list-item">
+                        <a href="{{ url_for('profile') }}">
+                            <span class="header-main__text-color">Профиль</span></a>
+                    </div>
+                    <div class="header-main__list-item">
+                        <a href="{{ url_for('logout') }}">
+                            <span class="header-main__text-color">Выйти</span>
+                        </a>
+                    </div>
                     {% else %}
-                    <li class="header-main__list-item">
-                        <a href="{{ url_for('login') }}">Войти</a>
-                    </li>
+                    <div class="header-main__list-item">
+                        <a href="{{ url_for('login') }}">
+                            <span class="header-main__text-color">Войти</span>
+                        </a>
+                    </div>
                     {% endif %}
-                </ul>
+                </div>
             </div>
         </div>
     </nav>

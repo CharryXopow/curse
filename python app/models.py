@@ -19,7 +19,7 @@ class Painting(db.Model):
     painting_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     owner_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
-    image_url = db.Column(db.String(200), nullable=True)  # URL изображения
+    image_url = db.Column(db.String(max), nullable=True)  # URL изображения
     price = db.Column(db.Float, nullable=False)
 
     owner = db.relationship('User', backref='paintings')

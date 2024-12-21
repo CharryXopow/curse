@@ -11,7 +11,7 @@
         <div class="sale-post">
             <h3>{{ post.painting.title }}</h3>
             <p>Владелец: {{ post.user.username }}</p>
-            <img src="{{ post.painting.image_url }}" alt="{{ post.painting.title }}" width="200">
+            <img src="{{ url_for('static', filename=post.painting.image_url) }}" alt="{{ post.painting.title }}" width="200">
             <p>Цена: {{ post.painting.price }} руб.</p>
             <p>Лайков: {{ post.likes_count }}</p>
             <p>Репостов: {{ post.repost_count }}</p>
