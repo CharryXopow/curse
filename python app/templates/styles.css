@@ -5,45 +5,6 @@ body {
     padding: 0;
 }
 
-.header-main__wrapper {
-    min-height: 50px;
-    background-color: #409cff;
-    position: sticky;
-    display: flex;
-    flex-direction: row;
-    overflow: hidden;
-    width: 100%;
-}
-
-.header-main__container {
-    display: flex;
-    align-items: center;
-    height: 100%;
-}
-
-.header-main__list{
-    display: flex;
-    padding-left: 35px;
-}
-
-.header-main__list-item {
-    display: inline;
-    cursor: pointer;
-    font-size: 95%;
-    color: var(--gfg-title-color);
-    font-weight: 600;
-    position: relative;
-}
-
-.header-main__list-item:not(:first-child) {
-    margin-left: 45px;
-}
-
-.nav {
-    display: block;
-    text-align: justify;
-}
-
 h2 {
     text-align: center;
     margin-top: 20px;
@@ -55,16 +16,6 @@ h2 {
     align-items: center;  /* Центрирование блоков по горизонтали */
     margin-top: 20px;
 }
-
-.enter-text-space {
-    background-color: #d8d8d8;
-    align-self:flex-start;
-    position: relative;
-    left:50%;
-    border-radius: 15px;
-    width: 100px;
-}
-
 
 .sale-post {
     background-color: #fff;

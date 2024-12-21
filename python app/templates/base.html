@@ -8,13 +8,26 @@
 </head>
 <body>
     <nav>
-        <a href="{{ url_for('index') }}">Главная</a>
-        {% if current_user.is_authenticated %}
-            <a href="{{ url_for('profile') }}">Профиль</a>
-            <a href="{{ url_for('logout') }}">Выйти</a>
-        {% else %}
-            <a href="{{ url_for('login') }}">Войти</a>
-        {% endif %}
+        <div class="header-main__wrapper">
+            <div clas="header-main__container">
+                <ul class="header-main__list">
+                    <li class="header-main__list-item">
+                        <a href="{{ url_for('index') }}">Главная</a>
+                    {% if current_user.is_authenticated %}
+                    <li class="header-main__list-item">
+                        <a href="{{ url_for('profile') }}">Профиль</a>
+                    </li>
+                    <li class="header-main__list-item">
+                        <a href="{{ url_for('logout') }}">Выйти</a>
+                    </li>
+                    {% else %}
+                    <li class="header-main__list-item">
+                        <a href="{{ url_for('login') }}">Войти</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
     </nav>
     <div class="content">
         {% block content %}{% endblock %}

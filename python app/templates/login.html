@@ -5,11 +5,14 @@
 {% block content %}
 <h2>Войти</h2>
 <form method="POST" action="{{ url_for('login') }}">
-    <label for="email">Email:</label>
-    <input type="text" id="email" name="email" required><br>
-    <label for="password">Пароль:</label>
-    <input type="password" id="password" name="password" required><br>
+    <div class="enter-text-space">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required><br>
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" name="password" required><br>
+    </div>
     <button type="submit">Войти</button>
+   
 </form>
 
 <h2>Зарегистрироваться</h2>
