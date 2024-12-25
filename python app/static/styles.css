@@ -6,13 +6,25 @@ body {
 }
 
 .header-main__wrapper {
+    position: sticky;
+    top: 0;
+    line-height: 1.5 !important;
+    font-size: 12pt !important;
+    margin: 0px !important;
+    opacity: 1;
     min-height: 50px;
     background-color: #409cff;
-    position: sticky;
     display: flex;
     flex-direction: row;
     overflow: hidden;
+    vertical-align: baseline;
+    align-items: center;
     width: 100%;
+}
+
+:root {
+    --font-primary: 'Source Sans 3', sans-serif;
+    --font-secondary: 'Nunito', sans-serif;
 }
 
 .header-main__container {
@@ -22,19 +34,14 @@ body {
 }
 
 .header-main__list{
-    /* width: 100%;
-    min-width: 100%; */
     box-sizing: border-box;
     display: flex;
     padding-left: 35px;
-    padding-top: 2%;
-    padding-bottom: 2%;
-    padding-right: 35px;
 }
 
 .header-main__text-color{
     color:#f5f5f5;
-    font-family:'New Century Schoolbook', 'TeX Gyre Schola', serif;
+    font-family: var(--font-primary);
     font-weight: 550
 }
 
@@ -75,7 +82,7 @@ h2 {
 .enter-text-space {
     background-color: #d8d8d8;
     align-self:flex-start;
-    position: relative;
+    position: absolute;
     left:50%;
     border-radius: 15px;
     width: 100px;
@@ -113,3 +120,61 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+
+.login-main__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Центрирует по вертикали */
+    align-items: center; /* Центрирует по горизонтали */
+    height: 80vh; /* Высота контейнера 100% от высоты экрана */
+    background-color: #f4f4f4; /* Цвет фона */
+  }
+
+
+form {
+    display: flex;
+    flex-direction: column; /* Располагает поля ввода вертикально */
+    gap: 10px; /* Отступ между полями */
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+
+/* Контейнер для аватара */
+.profile-main__container {
+    position: relative;
+    text-align: center;
+}
+
+/* Стили для аватара */
+.profile-main__container img {
+    border-radius: 50%; /* Делаем аватар круглым */
+    transition: transform 0.3s ease; /* Плавный эффект */
+}
+
+/* Скрытая кнопка загрузки */
+.upload-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Полупрозрачный фон */
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    display: none; /* Скрываем кнопку по умолчанию */
+    cursor: pointer;
+}
+
+/* Появление кнопки при наведении */
+.avatar-container:hover .upload-button {
+    display: block;
+}
+
+/* При наведении на аватар увеличиваем */
+.avatar-container:hover img {
+    transform: scale(1.1); /* Увеличиваем аватар при наведении */
+}
+
