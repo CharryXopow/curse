@@ -16,7 +16,9 @@ app.config.from_object('config.Config')
 app.secret_key = 'abcddfg'
 
 AVATAR_UPLOAD_FOLDER = os.path.join(app.root_path,'static/avatars/')
-app.config['UPLOAD_FOLDER'] = AVATAR_UPLOAD_FOLDER
+UPLOAD_FOLDER = os.path.join(app.root_path,'static/uploads/')
+app.config['AVATAR_UPLOAD_FOLDER'] = AVATAR_UPLOAD_FOLDER
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
 if not os.path.exists(AVATAR_UPLOAD_FOLDER):
@@ -37,7 +39,7 @@ def upload_avatar():
 
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        avatar_path = os.path.join(app.config['UPLOAD_FOLDER'], f"{current_user.user_id}_{filename}")
+        avatar_path = os.path.join(app.config['AVATAR_UPLOAD_FOLDER'], f"{current_user.user_id}_{filename}")
         
         file.save(avatar_path)
         
@@ -48,6 +50,40 @@ def upload_avatar():
         return jsonify({"success": True, "avatar_url": url_for('static', filename=current_user.avatar_url)})
     else:
         return jsonify({"success": False, "message": "Invalid file type"})
+
+@app.route('/upload-painting', methods=['POST'])
+def upload_painting():
+    if 'painting' not in request.files:
+        flash('Нет файла для загрузки')
+        return redirect(url_for('profile'))
+    
+    painting_file = request.files['painting']
+    title = request.form['title']
+    price = request.form['price']
+    description = request.form['description']
+
+    if painting_file.filename == '':
+        flash('Файл не выбран')
+        return redirect(url_for('profile'))
+    
+    if painting_file:
+        # Сохраняем файл
+        filename = secure_filename(painting_file.filename)
+        painting_path = os.path.join(app.config['UPLOAD_FOLDER'], f"{current_user.user_id}_{filename}")
+        painting_file.save(painting_path)
+
+        # Сохраняем картину в базе данных
+        painting = Painting(
+            artist_id=current_user.user_id,
+            title=title,
+            price=price,
+            description=description,
+            image_url=f'uploads/{filename}'
+        )
+        db.session.add(painting)
+        db.session.commit()
+        flash('Картина успешно загружена!')
+        return redirect(url_for('profile'))
 
 @app.route('/test_db')
 def test_db():
@@ -120,7 +156,7 @@ def register():
 
     hashed_password = generate_password_hash(password)
     
-    user = CurrentUser(user_id='1',username=username, email=email, password_hash=hashed_password)
+    user = CurrentUser(user_id='1',username=username, email=email, password_hash=hashed_password,avatar_url='avatars/default-user-img.png')
 
     db.session.add(user)
     db.session.commit()
@@ -133,7 +169,8 @@ def register():
 @app.route('/profile')
 @login_required
 def profile():
-    return render_template('profile.html')
+    paintings = Painting.query.filter_by(artist_id=current_user.user_id).all()
+    return render_template('profile.html', current_user=current_user, paintings=paintings)
 
 @app.route('/logout')
 @login_required

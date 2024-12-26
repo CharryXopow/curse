@@ -8,7 +8,7 @@
 
     <!-- Контейнер для аватара -->
     <div class="avatar-container">
-        <img id="avatar-img" src="{{ url_for('static', filename=current_user.avatar_url) }}" alt="Аватар" width="150" height="150">
+        <img id="avatar-img" src="{{ url_for('static', filename=current_user.avatar_url if current_user.avatar_url else 'avatars/default-user-img.png') }}"  alt="Аватар" width="150" height="150">
         <!-- Кнопка для загрузки, скрыта по умолчанию -->
         <label for="avatar-upload" class="upload-button">Загрузить</label>
         <input type="file" id="avatar-upload" style="display: none;" onchange="uploadAvatar(this)">
@@ -18,7 +18,32 @@
     <p>Email: {{ current_user.email }}</p>
     <button onclick="window.location.href='{{ url_for('logout') }}'">Выйти из аккаунта</button>
 </div>
+    
+<!-- Секция для загрузки картины -->
+<div class="upload-painting__container">
+    <h3>Добавить новую картину</h3>
+    <form action="{{ url_for('upload_painting') }}" method="POST" enctype="multipart/form-data">
+        <input type="text" name="title" placeholder="Название картины" required>
+        <input type="number" step="0.01" name="price" placeholder="Цена картины" required>
+        <textarea name="description" placeholder="Описание картины" rows="3" required></textarea>
+        <label for="painting-upload">Выберите изображение</label>
+        <input type="file" id="painting-upload" name="painting" required>
+        <button type="submit">Загрузить картину</button>
+    </form>
+</div>
 
+<!-- Секция для отображения картин -->
+<div class="paintings-feed">
+    <h3>Мои картины</h3>
+    {% for painting in paintings %}
+    <div class="painting-card">
+        <img src="{{ url_for('static', filename=painting.image_url) }}" alt="{{ painting.title }}" width="200">
+        <h4>{{ painting.title }}</h4>
+        <p>{{ painting.description }}</p>
+        <p><strong>Цена:</strong> {{ painting.price }} руб.</p>
+    </div>
+    {% endfor %}
+</div>
 <style>
     .avatar-container {
         position: relative;
